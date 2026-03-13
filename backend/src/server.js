@@ -55,8 +55,6 @@ app.use("/api/users", userRoutes);
 app.use("/api/payments", paymentRoutes);
 
 // -------------------- Serve Frontend --------------------
-const __dirname = path.resolve();
-
 app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 app.get("*", (req, res) => {
