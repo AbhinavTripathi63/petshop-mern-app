@@ -16,7 +16,7 @@ import OrderSummary from "./pages/OrderSummary";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProtectedUser from "./components/ProtectedUser";
-import MyOrders from "./pages/myOrders";
+import MyOrders from "./pages/MyOrders";
 
 
 
