@@ -3,6 +3,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const rateLimit = require("express-rate-limit");
+const path = require("path");
 require("dotenv").config();
 
 const connectDB = require("./config/db");
@@ -31,19 +32,18 @@ app.use(morgan("dev"));
 
 // -------------------- Rate Limiter (Auth only) --------------------
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
-  max: 30, // max requests in 15 min
+  windowMs: 15 * 60 * 1000,
+  max: 30,
   standardHeaders: true,
   legacyHeaders: false,
   message: { message: "Too many requests, try again later." }
 });
 
-// Apply limiter ONLY on auth routes (before routes)
 app.use("/api/users", authLimiter);
 app.use("/api/admin", authLimiter);
 
-// -------------------- Routes --------------------
-app.get("/", (req, res) => {
+// -------------------- API Routes --------------------
+app.get("/api", (req, res) => {
   res.send("PetShop API is running ✅");
 });
 
@@ -54,16 +54,13 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/payments", paymentRoutes);
 
-import path from "path";
-import express from "express";
-
-
+// -------------------- Serve Frontend --------------------
 const __dirname = path.resolve();
 
-app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
 });
 
 // -------------------- Start Server --------------------
@@ -71,7 +68,9 @@ const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+    app.listen(PORT, () => {
+      console.log(`✅ Server running on port ${PORT}`);
+    });
   })
   .catch((err) => {
     console.error("❌ DB connection error:", err.message);
