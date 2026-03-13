@@ -55,10 +55,10 @@ app.use("/api/users", userRoutes);
 app.use("/api/payments", paymentRoutes);
 
 // -------------------- Serve Frontend --------------------
-app.use(express.static(path.join(__dirname, "../frontend/dist")));
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use((req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
 });
 // -------------------- Start Server --------------------
 const PORT = process.env.PORT || 5000;
