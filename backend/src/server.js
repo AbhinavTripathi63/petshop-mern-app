@@ -54,6 +54,18 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/payments", paymentRoutes);
 
+import path from "path";
+import express from "express";
+
+
+const __dirname = path.resolve();
+
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
+
 // -------------------- Start Server --------------------
 const PORT = process.env.PORT || 5000;
 
