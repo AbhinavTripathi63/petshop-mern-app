@@ -18,7 +18,18 @@ const paymentRoutes = require("./routes/payment.routes");
 const app = express();
 
 // -------------------- Middlewares --------------------
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https:"],
+        scriptSrc: ["'self'", "https://checkout.razorpay.com"],
+        frameSrc: ["'self'", "https://api.razorpay.com"],
+      },
+    },
+  })
+);
 app.use(express.json({ limit: "10kb" }));
 
 app.use(
